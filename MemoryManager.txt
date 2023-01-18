@@ -1,0 +1,34 @@
+.TH MemoryManager.sh 1
+.SH NAME
+    P2 MemoryManager
+.SH SYNOPSIS
+    The goal of this project was to implement a memory manager in C++ that can initilize, track, allocate, and deallocate sections of memory.
+.SH DESCRIPTION
+    I created my headerfile and initilized all the functions in a class called MemoryManager and a struct called Node that holds the length, index, and a boolean value to determine if that block of memory was free.
+    The constructor and initilizes which type of algorithm (bestfit or worstfit) and the size of the word.
+    The destructor that calls the function shutdown, which releases the memoryblocks that are initilized.
+    The initilize function checks to see if the size of memory in words is less than the max size of 65536 words and initilizes a memoryblock based on the byteLimit. This function also keeps track of the starting point in memory and adds it to a vector of nodes.
+    The shutdown function clears the memoryBlock, vector of nodes, and map that is used to keep track of the sections of memory.
+    The allocate function calculates the size of memory in words and loops over the vector of nodes to find a hole to allocate memory. It then checks to see if there needs to be resizing of memory and adjusts the preexisting nodes and adds the index of the node to a map. This function returns a pointer to the memoryblock data.
+    The free function finds the desired node based on the memory address and deallocates that block so it can be used again. This function also checks to see if there are continuous holes in memory and removes them.
+    The setAllocator function is used to identify which algorithm is best to identify the hole in memory.
+    The dumpMemoryMap uses POSIX calls to write the holeList to a new text file. I used the O_Creat and O_WRONLY flags to write to the text file. I used the getList function to initialize the holeList and add that information to the output string.
+    The getList function returns a vector of holes that contains the number of holes, hole offset, and hole length. This function return nullptr if there is no initilized memory.
+    The getBitMap function returns a stream of bits in a vector showing if the words are used or free. 
+    The getWordSize function returns the wordSize which is initialized in the constructor.
+    The getMemoryStart function returns the starting point in memory that was initialized in the initialization step.
+    The getMemoryLimit function returns the byteLimit that was calculated during the initilization step.
+    The bestFit and worstFit algorithms are used to return the hole offset selected by the respective algorithms. These algorithms both use the holeList to loop over getting the offset information.
+.SH TESTING
+    First I created a make file and added the file target to the MemoryManager.cpp. 
+    I then used these commands ->	g++ -c MemoryManager.cpp -o MemoryManager.o
+	                                ar cr libMemoryManager.a MemoryManager.o
+    to build the library functions.
+    Next I linked the test cpp file to the library that was created using g++ -std=c++17 -o CommandLineTest CommandLineTest.cpp -L ./MemoryManager -lMemoryManager.
+    After the library is linked you can run the CommandLineTest file and see the results.
+.SH LINK
+    https://youtu.be/p1iacSe1q6Y
+.SH AUTHOR
+    Darion Thompson
+
+
